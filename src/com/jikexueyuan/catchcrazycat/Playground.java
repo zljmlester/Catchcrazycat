@@ -5,12 +5,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 
-public class Playground extends SurfaceView{
+public class Playground extends SurfaceView implements OnTouchListener{
 		
 	
 	private static  int WIDTH = 40;
@@ -31,6 +35,7 @@ public class Playground extends SurfaceView{
 				matrix[i][j] = new Dot(j, i);
 			}
 		}
+		setOnTouchListener(this);
 		initGame();
 	}
 	
@@ -113,6 +118,21 @@ public class Playground extends SurfaceView{
 			}
 		}
 	}
+	
+	@Override
+	public boolean onTouch(View arg0, MotionEvent e) {
+		if (e.getAction() == MotionEvent.ACTION_UP) {
+//			Toast.makeText(getContext(), e.getX()+":"+e.getY(), Toast.LENGTH_SHORT).show();
+			int x,y;
+			y = (int) (e.getY()/WIDTH);
+			if (y%2 == 0) {
+				x = (int) (e.getX()/WIDTH);
+			}else {
+				x = (int) ((e.getX()-WIDTH/2)/WIDTH);
+			}
+				getDot(x, y).setStatus(Dot.STATUS_ON);
+			redraw();
+		}
+		return true;
 	}
-
-
+}
