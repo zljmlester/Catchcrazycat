@@ -130,7 +130,11 @@ public class Playground extends SurfaceView implements OnTouchListener{
 			}else {
 				x = (int) ((e.getX()-WIDTH/2)/WIDTH);
 			}
+			if (x+1 > COL || y+1 > ROW) {
+				initGame();
+			}else if(getDot(x, y).getStatus() == Dot.STATUS_OFF){
 				getDot(x, y).setStatus(Dot.STATUS_ON);
+			}
 			redraw();
 		}
 		return true;
