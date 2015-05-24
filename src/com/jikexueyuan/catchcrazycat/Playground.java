@@ -42,6 +42,50 @@ public class Playground extends SurfaceView implements OnTouchListener{
 	private Dot getDot(int x,int y) {
 		return matrix[y][x];
 	}
+	
+	private boolean isAtEdge(Dot d) {
+		if (d.getX()*d.getY() == 0 || d.getX()+1 == COL || d.getY()+1 == ROW) {
+			return true;
+		}
+		return false;
+	}
+	
+	private Dot getNeighbour(Dot one,int dir) {
+		switch (dir) {
+		case 1:
+			return getDot(one.getX()-1, one.getY());
+		case 2:
+			if (one.getY()%2 == 0) {
+				return getDot(one.getX()-1, one.getY()-1);
+			}else {
+				return getDot(one.getX(), one.getY()-1);
+			}
+		case 3:
+			if (one.getY()%2 == 0) {
+				return getDot(one.getX(), one.getY()-1);
+			}else {
+				return getDot(one.getX()+1, one.getY()-1);
+			}
+		case 4:
+			return getDot(one.getX()+1, one.getY());
+		case 5:
+			if (one.getY()%2 == 0) {
+				return getDot(one.getX(), one.getY()+1);
+			}else {
+				return getDot(one.getX()+1, one.getY()+1);
+			}
+		case 6:
+			if (one.getY()%2 == 0) {
+				return getDot(one.getX()-1, one.getY()+1);
+			}else {
+				return getDot(one.getX(), one.getY()+1);
+			}
+
+		default:
+			break;
+		}
+		return null;
+	}
 
 
 	private void redraw() {
