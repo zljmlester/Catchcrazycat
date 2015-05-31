@@ -86,6 +86,29 @@ public class Playground extends SurfaceView implements OnTouchListener{
 		}
 		return null;
 	}
+	
+	private int getDistance(Dot one,int dir) {
+		int distance = 0;
+		Dot ori = one,next;
+		while(true){
+			next = getNeighbour(ori, dir);
+			if (next.getStatus() == Dot.STATUS_ON) {
+				return distance*-1;
+			}
+			if (isAtEdge(next)) {
+				distance++;
+				return distance;
+			}
+			distance++;
+			ori = next;
+		}
+	}
+	
+	private void MoveTo(Dot one) {
+		one.setStatus(Dot.STATUS_IN);
+		getDot(cat.getX(), cat.getY());
+		cat.setXY(one.getX(), one.getY());
+	}
 
 
 	private void redraw() {
