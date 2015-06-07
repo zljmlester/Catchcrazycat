@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Vector;
 
+import android.R.integer;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -17,7 +18,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Toast;
-
 
 public class Playground extends SurfaceView implements OnTouchListener{
 		
@@ -47,7 +47,7 @@ public class Playground extends SurfaceView implements OnTouchListener{
 	private Dot getDot(int x,int y) {
 		return matrix[y][x];
 	}
-	
+
 	private boolean isAtEdge(Dot d) {
 		if (d.getX()*d.getY() == 0 || d.getX()+1 == COL || d.getY()+1 == ROW) {
 			return true;
@@ -93,7 +93,11 @@ public class Playground extends SurfaceView implements OnTouchListener{
 	}
 	
 	private int getDistance(Dot one,int dir) {
+//		System.out.println("X:"+one.getX()+" Y:"+one.getY()+" Dir:"+dir);
 		int distance = 0;
+		if (isAtEdge(one)) {
+			return 1;
+		}
 		Dot ori = one,next;
 		while(true){
 			next = getNeighbour(ori, dir);
@@ -173,8 +177,7 @@ public class Playground extends SurfaceView implements OnTouchListener{
 		Toast.makeText(getContext(), "You Win!", Toast.LENGTH_SHORT).show();
 		
 	}
-
-
+	
 	private void redraw() {
 		Canvas c = getHolder().lockCanvas();
 		c.drawColor(Color.LTGRAY);
@@ -227,7 +230,7 @@ public class Playground extends SurfaceView implements OnTouchListener{
 		public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
 			// TODO Auto-generated method stub
 			WIDTH = arg2/(COL+1);
-		  redraw();
+			redraw();
 		}
 	};
 	
@@ -249,7 +252,7 @@ public class Playground extends SurfaceView implements OnTouchListener{
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean onTouch(View arg0, MotionEvent e) {
 		if (e.getAction() == MotionEvent.ACTION_UP) {
